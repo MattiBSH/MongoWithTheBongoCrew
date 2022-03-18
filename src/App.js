@@ -1,8 +1,8 @@
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useState, useEffect, React } from "react";
-import ReactHtmlParser from 'react-html-parser';
-
+import ReactHtmlParser from "react-html-parser";
+import { Plane } from "react-loader-spinner";
 function App() {
   return (
     <Router>
@@ -39,22 +39,27 @@ function App() {
 
 const Home = () => {
   const [tweets, setTweets] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const Button = ({ handleClick = () => console.log("Default") }) => (
-    <button class="button" type="button" onClick={handleClick}>
-      Get Tweets
-    </button>
-  );
-
-  const sayHello = () =>
-    fetch("http://localhost:4000/tweets")
+  const sayHello = async () => {
+    setLoading(true);
+    await fetch("http://localhost:4000/tweets")
       .then((response) => response.json())
-      .then((data) => setTweets(data));
+      .then((data) => {
+        setTweets(data);
+      });
+    setLoading(false);
+  };
 
   return (
     <div align="center">
       <h1 class="h1">All Tweets</h1>
-      <Button handleClick={sayHello} />
+
+      <button class="button" type="button" onClick={sayHello}>
+        Get Tweets
+      </button>
+
+      {loading == true ? <Plane color="blue" /> : <></>}
       <h1>
         {tweets[0] != null ? (
           <div>
@@ -71,25 +76,43 @@ const Home = () => {
               </thead>
               <tbody>
                 {tweets.map((tweet) => {
-                  {console.log(tweet)}
-                    return <>
-                    <tr>
-                      <td>{tweet["_id"]}</td>
-                      <td>{tweet["text"]}</td>
-                      <td>{tweet['user']!=null?tweet["user"]['name'].toString():"No name"}</td>
-                      <td>{tweet['user']!=null?tweet["user"]['verified'].toString():"false"}</td>
-                      <td>{tweet['retweet_count']!=null?tweet["retweet_count"].toString():"0"}</td>
-                      <td>{tweet['source']!=null?ReactHtmlParser(tweet["source"]):"No source"}</td>
-
+                  {
+                    console.log(tweet);
+                  }
+                  return (
+                    <>
+                      <tr>
+                        <td>{tweet["_id"]}</td>
+                        <td>{tweet["text"]}</td>
+                        <td>
+                          {tweet["user"] != null
+                            ? tweet["user"]["name"].toString()
+                            : "No name"}
+                        </td>
+                        <td>
+                          {tweet["user"] != null
+                            ? tweet["user"]["verified"].toString()
+                            : "false"}
+                        </td>
+                        <td>
+                          {tweet["retweet_count"] != null
+                            ? tweet["retweet_count"].toString()
+                            : "0"}
+                        </td>
+                        <td>
+                          {tweet["source"] != null
+                            ? ReactHtmlParser(tweet["source"])
+                            : "No source"}
+                        </td>
                       </tr>
                     </>
-                  
+                  );
                 })}
               </tbody>
             </table>
           </div>
         ) : (
-          "ok"
+          ""
         )}
       </h1>
     </div>
