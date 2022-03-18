@@ -1,6 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useState, useEffect, React } from "react";
+import ReactHtmlParser from 'react-html-parser';
 
 function App() {
   return (
@@ -40,8 +41,8 @@ const Home = () => {
   const [tweets, setTweets] = useState([]);
 
   const Button = ({ handleClick = () => console.log("Default") }) => (
-    <button type="button" onClick={handleClick}>
-      Button
+    <button class="button" type="button" onClick={handleClick}>
+      Get Tweets
     </button>
   );
 
@@ -52,7 +53,7 @@ const Home = () => {
 
   return (
     <div align="center">
-      <h1>All Tweets</h1>
+      <h1 class="h1">All Tweets</h1>
       <Button handleClick={sayHello} />
       <h1>
         {tweets[0] != null ? (
@@ -62,9 +63,10 @@ const Home = () => {
                 <tr>
                   <th>ID</th>
                   <th>Text</th>
-                  <th>User</th>
-                  <th>Place</th>
+                  <th>User name</th>
+                  <th>User verified</th>
                   <th>Retweet Count</th>
+                  <th>Source</th>
                 </tr>
               </thead>
               <tbody>
@@ -74,9 +76,11 @@ const Home = () => {
                     <tr>
                       <td>{tweet["_id"]}</td>
                       <td>{tweet["text"]}</td>
-                      <td>{tweet['user']!=null?tweet["user"]['name'].toString():"none"}</td>
-                      <td>{tweet['place']!=null?tweet["place"].toString():"none"}</td>
-                      <td>{tweet['Retweet Count']!=null?tweet["Retweet Count"].toString():"none"}</td>
+                      <td>{tweet['user']!=null?tweet["user"]['name'].toString():"No name"}</td>
+                      <td>{tweet['user']!=null?tweet["user"]['verified'].toString():"false"}</td>
+                      <td>{tweet['retweet_count']!=null?tweet["retweet_count"].toString():"0"}</td>
+                      <td>{tweet['source']!=null?ReactHtmlParser(tweet["source"]):"No source"}</td>
+
                       </tr>
                     </>
                   

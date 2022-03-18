@@ -1,6 +1,25 @@
 .App {
   text-align: center;
 }
+.button {
+  background-color: #0047ca; /* Green */
+  border: none;
+  color: white;
+  padding: 25px 50px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.h1{
+  height: 1000;
+  font-size: 400%;
+  border-style: solid;
+  border-color: rgb(210, 237, 255);
+  text-shadow: 2px 2px #0047ca;
+  color:#7dd6ff
+}
 
 .App-logo {
   height: 40vmin;
@@ -39,7 +58,7 @@
 #tweets {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 100%;
+  width: 50%;
 }
 
 #tweets td, #tweets th {
