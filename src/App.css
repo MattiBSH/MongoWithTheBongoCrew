@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+#tweets {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#tweets td, #tweets th {
+  border: 1px solid rgb(0, 0, 0);
+  padding: 8px;
+}
+
+#tweets tr:nth-child(even){background-color: #f2f2f2;}
+
+#tweets tr:hover {background-color: #ddd;}
+
+#tweets th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #65c4f0;
+  color: white;
+}
