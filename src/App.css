@@ -2,7 +2,7 @@
   text-align: center;
 }
 .button {
-  background-color: #0047ca; /* Green */
+  background-color: #36a1f8; /* Green */
   border: none;
   color: white;
   padding: 25px 50px;
@@ -17,7 +17,7 @@
   font-size: 400%;
   border-style: solid;
   border-color: rgb(210, 237, 255);
-  text-shadow: 2px 2px #0047ca;
+  text-shadow: 2px 2px #36a1f8;
   color:#7dd6ff
 }
 
@@ -33,7 +33,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #36a1f8;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -44,7 +44,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #36a1f8;
 }
 
 @keyframes App-logo-spin {
