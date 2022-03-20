@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useState, useEffect, React } from "react";
 import ReactHtmlParser from "react-html-parser";
 import { Plane } from "react-loader-spinner";
+import Form from "react-bootstrap/Button";
+
 function App() {
   return (
     <Router>
@@ -129,10 +131,39 @@ function About() {
 }
 
 function Add() {
+  const [tweet, setTweet] = useState({ text: "" });
+
+  const handleSubmit = async () => {
+    await fetch("http://localhost:4000/tweets", {
+      method: "POST",
+      body: JSON.stringify(tweet),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  };
+
+  const handleChange = (event) => {
+    setTweet({ text: event.target.value });
+    var data = JSON.stringify(tweet);
+    console.log(data);
+  };
   return (
     <div align="center">
-      <h1>Add</h1>
-      <h3>gg</h3>
+      <div align="center">
+        <h1 class="h1">Add a tweet</h1>
+      </div>
+      <form className="mb-3" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="text"
+          value={tweet.text}
+          onChange={handleChange}
+        />
+        <input type="submit" value="Send tweet" />
+      </form>
     </div>
   );
 }
