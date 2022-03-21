@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useState, useEffect, React } from "react";
 import ReactHtmlParser from "react-html-parser";
 import { Plane } from "react-loader-spinner";
-import Form from "react-bootstrap/Button";
 
 function App() {
   return (
@@ -15,7 +14,7 @@ function App() {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/about">About</Link>
+              <Link to="/hashtags">Hashtags</Link>
             </li>
             <li>
               <Link to="/add">Add</Link>
@@ -24,8 +23,8 @@ function App() {
         </nav>
 
         <Switch>
-          <Route path="/about">
-            <About />
+          <Route path="/hashtags">
+            <Hashtags />
           </Route>
           <Route path="/add">
             <Add />
@@ -121,14 +120,64 @@ const Home = () => {
   );
 };
 
-function About() {
+const Hashtags = () => {
+  const [hash, setHash] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const sayHello = async () => {
+    setLoading(true);
+    await fetch("http://localhost:4000/tweets/hashtags")
+      .then((response) => response.json())
+      .then((data) => {
+        setHash(data);
+      });
+    setLoading(false);
+  };
+
   return (
     <div align="center">
-      <h1>About</h1>
-      <h3>gg</h3>
+      <h1 class="h1">All Hashtags</h1>
+
+      <button class="button" type="button" onClick={sayHello}>
+        Get Hashtags
+      </button>
+
+      {loading == true ? <Plane /> : <></>}
+      <h1>
+        {hash[0] != null ? (
+          <div>
+            <table id="tweets">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Count</th>
+                 
+                </tr>
+              </thead>
+              <tbody>
+                {hash.map((hash) => {
+                  {
+                    console.log(hash);
+                  }
+                  return (
+                    <>
+                      <tr>
+                        <td>{hash["_id"]}</td>
+                        <td>{hash["count"]}</td>
+                      </tr>
+                    </>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          ""
+        )}
+      </h1>
     </div>
   );
-}
+};
 
 function Add() {
   const [tweet, setTweet] = useState({ text: "" });
