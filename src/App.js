@@ -133,20 +133,47 @@ function About() {
 function Add() {
   const [tweet, setTweet] = useState({ text: "" });
 
-  const handleSubmit = async () => {
-    await fetch("http://localhost:4000/tweets", {
+  const handleSubmit = (e) => {
+    console.log(JSON.stringify(tweet));
+
+    fetch("http://localhost:4000/tweets", {
       method: "POST",
-      body: JSON.stringify(tweet),
+      body: JSON.stringify({ text: "testteset" }),
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "text/plain",
+        accept: "application/json",
       },
     })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => console.log(data))
+      .catch((err) => {
+        if (err.status) {
+          err.fullError.then((e) => console.log(e.detail));
+        }
+      });
   };
 
+  /* try {
+      let res = await fetch("http://localhost:4000/tweets", {
+        method: "POST",
+        body: JSON.stringify(tweet),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+
+      let resJson = await res.json();
+      if (res.status === 200) {
+      } else {
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  */
+
   const handleChange = (event) => {
-    setTweet({ text: event.target.value });
+    setTweet({ ...tweet, [event.target.id]: event.target.value });
     var data = JSON.stringify(tweet);
     console.log(data);
   };
@@ -155,14 +182,18 @@ function Add() {
       <div align="center">
         <h1 class="h1">Add a tweet</h1>
       </div>
-      <form className="mb-3" onSubmit={handleSubmit}>
+
+      <form className="form-horizontal" onSubmit={handleSubmit}>
         <input
           type="text"
           name="text"
+          id="text"
           value={tweet.text}
           onChange={handleChange}
         />
-        <input type="submit" value="Send tweet" />
+        <button type="Submit" value="Send tweet" className="btn btn-primary">
+          Submit
+        </button>
       </form>
     </div>
   );
