@@ -151,7 +151,6 @@ const Hashtags = () => {
                 <tr>
                   <th>ID</th>
                   <th>Count</th>
-                 
                 </tr>
               </thead>
               <tbody>
@@ -182,16 +181,16 @@ const Hashtags = () => {
 function Add() {
   const [tweet, setTweet] = useState({ text: "" });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     console.log(JSON.stringify(tweet));
 
-    fetch("http://localhost:4000/tweets", {
+    await fetch("http://localhost:4000/tweets", {
       method: "POST",
-      body: JSON.stringify({ text: "testteset" }),
       headers: {
         "Content-Type": "text/plain",
-        accept: "application/json",
+        Accept: "application/json",
       },
+      body: JSON.stringify({ text: tweet.text }),
     })
       .then((data) => console.log(data))
       .catch((err) => {
