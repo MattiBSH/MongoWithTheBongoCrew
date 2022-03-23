@@ -183,15 +183,8 @@ function Add() {
 
   const handleSubmit = async (e) => {
     console.log(JSON.stringify(tweet));
-
-    await fetch("http://localhost:4000/tweets", {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/plain",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ text: tweet.text }),
-    })
+    const options = makeOptions("POST", tweet);
+    await fetch("http://localhost:4000/tweets", options)
       .then((data) => console.log(data))
       .catch((err) => {
         if (err.status) {
@@ -246,5 +239,19 @@ function Add() {
     </div>
   );
 }
+
+const makeOptions = (method, body) => {
+  var opts = {
+    method: method,
+    headers: {
+      "Content-type": "application/json",
+      Accept: "application/json",
+    },
+  };
+  if (body) {
+    opts.body = JSON.stringify(body);
+  }
+  return opts;
+};
 
 export default App;
